@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/gaocegege/simple-k8s-scheduler-extender/algorithm"
+	"github.com/gaocegege/simple-k8s-scheduler-extender/api"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,7 +12,6 @@ const PORT = 12345
 
 func main() {
 	r := gin.Default()
-	r.POST("/prioritize", algorithm.PrioritizeHandler)
-	// Listen and server on 0.0.0.0:12345.
+	r.POST("prioritize", api.PrioritizeHandler)
 	r.Run(fmt.Sprintf(":%d", PORT))
 }
