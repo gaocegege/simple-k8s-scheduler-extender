@@ -1,18 +1,18 @@
 {
-    "kind": "Policy",
-    "apiVersion": "v1",
-    "predicates": [
-        { "name": "PodFitsPorts" },
-        { "name": "PodFitsResources" },
-        { "name": "NoDiskConflict" },
-        { "name": "MatchNodeSelector" },
-        { "name": "HostName" }
+    "predicates": [{
+            "name": "HostName"
+        },
+        {
+            "name": "MatchNodeSelector"
+        },
+        {
+            "name": "PodFitsResources"
+        }
     ],
     "priorities": [],
-    "extender": {
-        "url": "http://127.0.0.1:12346/scheduler",
+    "extenders": [{
+        "urlPrefix": "http://127.0.0.1:12345",
         "prioritizeVerb": "prioritize",
-        "weight": 1,
         "enableHttps": false
-    }
+    }]
 }
