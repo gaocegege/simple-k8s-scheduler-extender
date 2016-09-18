@@ -4,6 +4,8 @@ use the config file in config/ to create the scheduler, and run simple-k8s-sched
 
 ```
 kube-scheduoler --policy-config-file='$(pwd)/config/policy.json'
+cd $GOPATH/src/github.com/gaocegege/simple-k8s-scheduler-extender
+godep go build .
 ./simple-k8s-scheduler-extender
 ```
 
