@@ -12,6 +12,6 @@ const PORT = 12345
 
 func main() {
 	r := gin.Default()
-	r.POST("prioritize", api.PrioritizeHandler)
+	r.POST("v1/prioritize", api.PrioritizeHandler)
 	r.Run(fmt.Sprintf(":%d", PORT))
 }

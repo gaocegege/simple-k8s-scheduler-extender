@@ -12,6 +12,7 @@
     "priorities": [],
     "extenders": [{
         "urlPrefix": "http://127.0.0.1:12345",
+        "apiVersion": "v1",
         "prioritizeVerb": "prioritize",
         "enableHttps": false
     }]
