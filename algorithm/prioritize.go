@@ -13,7 +13,7 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 
 	pod := args.Pod
 	nodes := args.Nodes
-	pods := &nodeStatus.GetAllPods()
+	pods := nodeStatus.GetAllPods()
 
 	for _, node := range nodes.Items {
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)

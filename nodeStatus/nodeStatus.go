@@ -71,7 +71,7 @@ func GetAllPods() api.PodList {
 	}
 	return v
 }
-func GetPodsByNodeName(podList *api.PodList, nodeName string) []*api.Pod {
+func GetPodsByNodeName(podList api.PodList, nodeName string) []*api.Pod {
 	var pods []*api.Pod
 	for _, pod := range podList.Items {
 		if pod.Spec.NodeName == nodeName {
