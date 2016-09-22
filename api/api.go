@@ -6,6 +6,7 @@ import (
 	"github.com/gaocegege/simple-k8s-scheduler-extender/algorithm"
 	"github.com/gin-gonic/gin"
 	schedulerapi "k8s.io/kubernetes/plugin/pkg/scheduler/api"
+	"time"
 )
 
 // PrioritizeHandler is the prioritize handler.
@@ -15,5 +16,6 @@ func PrioritizeHandler(c *gin.Context) {
 	fmt.Println("args: ", args)
 	//fmt.Println(algorithm.LeastHostedPriority(&args))
 	c.JSON(200, algorithm.LeastHostedPriority(&args))
+	time.Sleep(time.Second * 1)
 	algorithm.GetPodScheduleStatus()
 }
