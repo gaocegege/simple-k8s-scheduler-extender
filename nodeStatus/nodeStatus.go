@@ -66,7 +66,6 @@ func GetAllPods() api.PodList {
 			fmt.Print(err)
 			return v
 		}
-		fmt.Println(string(body))
 		if err = json.Unmarshal(body, &v); err != nil {
 		}
 		return v

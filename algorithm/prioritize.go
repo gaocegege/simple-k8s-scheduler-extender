@@ -52,6 +52,9 @@ func calculateResourceScore(pod *api.Pod, node *api.Node, epods []*api.Pod) sche
 
 	//capacityMilliCPU := node.Status.Allocatable.Cpu().MilliValue()
 	//capacityMemory := node.Status.Allocatable.Memory().Value()
+	fmt.Println(node.Name, "cpu: ", canuseMilliCPU, " memory: ", canuseMemory)
+	fmt.Println(node.Name, "score: ", (calculateScore(canuseMilliCPU, allocatableMilliCPU) +
+		calculateScore(canuseMemory, allocatableMemory)) / 2)
 
 	return schedulerapi.HostPriority{
 		Host: node.Name,
