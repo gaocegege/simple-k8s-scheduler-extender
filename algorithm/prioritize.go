@@ -14,6 +14,7 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 	pod := args.Pod
 	nodes := args.Nodes
 	pods := nodeStatus.GetAllPods()
+	fmt.Println("是否为空啊。。。。。: ", nodes.Items == nil)
 
 	for _, node := range nodes.Items {
 		fmt.Println(node.Name)
