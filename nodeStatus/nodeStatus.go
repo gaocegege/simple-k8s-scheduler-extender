@@ -13,7 +13,7 @@ const (
 	userName string = "admin"
 	password string = "FlbY3CD6mcFUfZvb"
 	destinationServer_Caicloud string = "https://sjtu.caicloudapp.com"
-	allpod_caicloud string = "api/v1/pods"
+	allpod_caicloud string = "/api/v1/pods"
 	destinationServer_Test string = "http://202.120.40.177:16380"
 	destinationServer_Test2 string = "http://192.168.1.163:8080"
 )
