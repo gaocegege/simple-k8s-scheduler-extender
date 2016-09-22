@@ -34,6 +34,12 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 			result[inde].Score = 0
 		}
 	}
+	for _, re := range result {
+		fmt.Println("名字")
+		fmt.Println(re.Host)
+		fmt.Println("得分")
+		fmt.Println(re.Score)
+	}
 	return result
 }
 
