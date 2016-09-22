@@ -7,6 +7,8 @@ import (
 	"fmt"
 )
 
+var totalScheduledCpu int64 = 0
+var totalScheduleMemory int64 = 0
 // LeastHostedPriority is a priority function that favors nodes with less hosts.
 func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPriorityList {
 	result := schedulerapi.HostPriorityList{}
@@ -16,10 +18,13 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 	pods := nodeStatus.GetAllPods()
 
 	for _, node := range nodes.Items {
-		fmt.Println(node.Name)
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)
 		result = append(result, calculateResourceScore(&pod, &node, ePods))
 	}
+
+	podRequest := getResourceRequest(pod)
+	totalScheduledCpu += podRequest.milliCPU
+	totalScheduleMemory += podRequest.memory
 	return result
 }
 
@@ -29,25 +34,25 @@ func calculateResourceScore(pod *api.Pod, node *api.Node, epods []*api.Pod) sche
 	allocatableMemory := node.Status.Allocatable.Memory().Value()
 	milliCPURequested := int64(0)
 	memoryRequested := int64(0)
-	for _, pod := range epods {
-		fmt.Println("podName: ", pod.Name, "  NodeName: ", pod.Spec.NodeName)
-		fmt.Println("Resource: ")
-		podRequest := getResourceRequest(pod)
+	for _, epod := range epods {
+		//fmt.Println("podName: ", pod.Name, "  NodeName: ", pod.Spec.NodeName)
+		//fmt.Println("Resource: ")
+		podRequest := getResourceRequest(epod)
 		milliCPURequested += podRequest.milliCPU
-		fmt.Println("  cpu: ", podRequest.milliCPU)
+		//fmt.Println("  cpu: ", podRequest.milliCPU)
 		memoryRequested += podRequest.memory
-		fmt.Println("  memory: ", podRequest.memory)
+		//fmt.Println("  memory: ", podRequest.memory)
 	}
 
 	canuseMilliCPU := allocatableMilliCPU - milliCPURequested
 	canuseMemory := allocatableMemory - memoryRequested
-	fmt.Println("Node: ", node.Name)
-	fmt.Println("allocatable: ")
-	fmt.Println("    cpu: ", allocatableMilliCPU)
-	fmt.Println("    memory: ", allocatableMemory)
-	fmt.Println("canuse: ")
-	fmt.Println("    cpu: ", canuseMilliCPU)
-	fmt.Println("    memory: ", canuseMemory)
+	//fmt.Println("Node: ", node.Name)
+	//fmt.Println("allocatable: ")
+	//fmt.Println("    cpu: ", allocatableMilliCPU)
+	//fmt.Println("    memory: ", allocatableMemory)
+	//fmt.Println("canuse: ")
+	//fmt.Println("    cpu: ", canuseMilliCPU)
+	//fmt.Println("    memory: ", canuseMemory)
 
 	//capacityMilliCPU := node.Status.Allocatable.Cpu().MilliValue()
 	//capacityMemory := node.Status.Allocatable.Memory().Value()
@@ -81,4 +86,18 @@ func calculateScore(allocatable int64, capacity int64) int {
 		return 0
 	}
 	return int(allocatable * 10 / capacity)
+}
+
+func getPodScheduleStatus(podList api.PodList) {
+	fmt.Println("Number of pod scheduled : ", len(podList.Items))
+	for index, pod := range podList.Items {
+		fmt.Println("pod", index, " :")
+		podRequest := getResourceRequest(&pod)
+		fmt.Println("  cpu: ", podRequest.milliCPU, "m")
+		fmt.Println("  memory: ", podRequest.memory, "i")
+		fmt.Println("scheduled to Node ", pod.Spec.NodeName)
+	}
+	fmt.Println("total scheduled workload:")
+	fmt.Println("  cpu: ", totalScheduledCpu, "m")
+	fmt.Println("  memory: ", totalScheduleMemory, "i")
 }
