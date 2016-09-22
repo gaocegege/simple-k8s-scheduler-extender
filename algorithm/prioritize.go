@@ -3,7 +3,7 @@ package algorithm
 import (
 	"k8s.io/kubernetes/pkg/api"
 	schedulerapi "k8s.io/kubernetes/plugin/pkg/scheduler/api"
-	"../nodeStatus"
+	"github.com/gaocegege/simple-k8s-scheduler-extender/nodeStatus"
 	"fmt"
 )
 
