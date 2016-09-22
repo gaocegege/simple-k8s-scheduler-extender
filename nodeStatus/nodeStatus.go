@@ -15,6 +15,7 @@ const (
 	destinationServer_Caicloud string = "https://sjtu.caicloudapp.com"
 	allpod_caicloud string = "api/v1/pods"
 	destinationServer_Test string = "http://202.120.40.177:16380"
+	destinationServer_Test2 string = "http://192.168.1.163:8080"
 )
 
 func setBasicAuthOfCaicloud(r *http.Request) {
@@ -55,7 +56,7 @@ func InvokeGetReuqest(url string) *http.Response {
 
 func GetAllPods() api.PodList {
 	//resp := InvokeRequest_Caicloud("GET", destinationServer_Caicloud + allpod_caicloud, nil)
-	resp := InvokeGetReuqest(destinationServer_Test + allpod_caicloud)
+	resp := InvokeGetReuqest(destinationServer_Test2 + allpod_caicloud)
 	var v api.PodList
 
 	if (resp != nil) {
