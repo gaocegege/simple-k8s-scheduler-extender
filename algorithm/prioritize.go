@@ -61,13 +61,14 @@ func calculateResourceScore(pod *api.Pod, node *api.Node, epods []*api.Pod) sche
 
 	canuseMilliCPU := allocatableMilliCPU - milliCPURequested
 	canuseMemory := allocatableMemory - memoryRequested
-	//fmt.Println("Node: ", node.Name)
-	//fmt.Println("allocatable: ")
-	//fmt.Println("    cpu: ", allocatableMilliCPU)
-	//fmt.Println("    memory: ", allocatableMemory)
-	//fmt.Println("canuse: ")
-	//fmt.Println("    cpu: ", canuseMilliCPU)
-	//fmt.Println("    memory: ", canuseMemory)
+	fmt.Println("Node: ", node.Name)
+	fmt.Println("allocatable: ")
+	fmt.Println("    cpu: ", allocatableMilliCPU)
+	fmt.Println("    memory: ", allocatableMemory)
+	fmt.Println("canuse: ")
+	fmt.Println("    cpu: ", canuseMilliCPU)
+	fmt.Println("    memory: ", canuseMemory)
+	fmt.Println("------------------")
 
 	//capacityMilliCPU := node.Status.Allocatable.Cpu().MilliValue()
 	//capacityMemory := node.Status.Allocatable.Memory().Value()

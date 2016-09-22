@@ -15,7 +15,8 @@ func PrioritizeHandler(c *gin.Context) {
 	c.BindJSON(&args)
 	fmt.Println("args: ", args)
 	//fmt.Println(algorithm.LeastHostedPriority(&args))
-	c.JSON(200, algorithm.LeastHostedPriority(&args))
+	algorithm.LeastHostedPriority(&args)
+	//c.JSON(200, algorithm.LeastHostedPriority(&args))
 	time.Sleep(time.Second * 3)
 	algorithm.GetPodScheduleStatus()
 }
