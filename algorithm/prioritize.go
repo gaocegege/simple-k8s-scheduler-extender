@@ -7,8 +7,6 @@ import (
 	"fmt"
 )
 
-var totalScheduledCpu int64 = 0
-var totalScheduleMemory int64 = 0
 // LeastHostedPriority is a priority function that favors nodes with less hosts.
 func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPriorityList {
 	result := schedulerapi.HostPriorityList{}
@@ -23,10 +21,6 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)
 		result = append(result, calculateResourceScore(&pod, &node, ePods))
 	}
-
-	podRequest := getResourceRequest(&pod)
-	totalScheduledCpu += podRequest.milliCPU
-	totalScheduleMemory += podRequest.memory
 	return result
 }
 
@@ -92,9 +86,13 @@ func calculateScore(allocatable int64, capacity int64) int {
 
 func getPodScheduleStatus(podList api.PodList) {
 	fmt.Println("Number of pod scheduled : ", len(podList.Items))
+	var totalScheduledCpu int = 0
+	var totalScheduleMemory int = 0
 	for index, pod := range podList.Items {
 		fmt.Println("pod", index, " :")
 		podRequest := getResourceRequest(&pod)
+		totalScheduledCpu += podRequest.milliCPU
+		totalScheduleMemory += podRequest.memory
 		fmt.Println("  cpu: ", podRequest.milliCPU, "m")
 		fmt.Println("  memory: ", podRequest.memory, "i")
 		fmt.Println("scheduled to Node ", pod.Spec.NodeName)
