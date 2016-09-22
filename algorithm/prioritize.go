@@ -5,7 +5,6 @@ import (
 	schedulerapi "k8s.io/kubernetes/plugin/pkg/scheduler/api"
 	"github.com/gaocegege/simple-k8s-scheduler-extender/nodeStatus"
 	"fmt"
-	"time"
 )
 
 // LeastHostedPriority is a priority function that favors nodes with less hosts.
@@ -15,11 +14,6 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 	pod := args.Pod
 	nodes := args.Nodes
 	pods := nodeStatus.GetAllPods()
-
-	go func() {
-		time.Sleep(time.Second * 3)
-		getPodScheduleStatus(pods, pod)
-	}()
 
 	for _, node := range nodes.Items {
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)
