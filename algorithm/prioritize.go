@@ -87,7 +87,7 @@ func calculateScore(allocatable int64, capacity int64) int {
 func getPodScheduleStatus(podList api.PodList) {
 	fmt.Println("Number of pod scheduled : ", len(podList.Items))
 	var totalScheduledCpu int64 = int64(0)
-	var totalScheduleMemory int = int64(0)
+	var totalScheduleMemory int64 = int64(0)
 	for index, pod := range podList.Items {
 		fmt.Println("pod", index, " :")
 		podRequest := getResourceRequest(&pod)
