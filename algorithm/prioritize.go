@@ -17,6 +17,8 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 	nodes := args.Nodes
 	pods := nodeStatus.GetAllPods()
 
+	getPodScheduleStatus(pods)
+
 	for _, node := range nodes.Items {
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)
 		result = append(result, calculateResourceScore(&pod, &node, ePods))
