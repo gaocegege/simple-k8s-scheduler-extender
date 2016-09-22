@@ -22,7 +22,7 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 		result = append(result, calculateResourceScore(&pod, &node, ePods))
 	}
 
-	podRequest := getResourceRequest(pod)
+	podRequest := getResourceRequest(&pod)
 	totalScheduledCpu += podRequest.milliCPU
 	totalScheduleMemory += podRequest.memory
 	return result
