@@ -11,16 +11,13 @@
     }
   ],
   "priorities": [
-    {
-      "name": "MostRequestedPriority",
-      "weight": 1
-    }
   ],
   "extenders": [
     {
       "urlPrefix": "http://127.0.0.1:12345",
       "apiVersion": "v1",
       "prioritizeVerb": "prioritize",
+      "weight": 20000,
       "enableHttps": false
     }
   ]
