@@ -19,6 +19,21 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)
 		result = append(result, calculateResourceScore(&pod, &node, ePods))
 	}
+	var max int = 0
+	var index int = 0
+	for inde := 0; inde < len(result); inde++ {
+		if result[inde].Score > max {
+			max = result[inde].Score
+			index = inde
+		}
+	}
+	for inde := 0; inde < len(result); inde++ {
+		if inde == index {
+			result[inde].Score = 10
+		} else {
+			result[inde].Score = 0
+		}
+	}
 	return result
 }
 
@@ -50,14 +65,12 @@ func calculateResourceScore(pod *api.Pod, node *api.Node, epods []*api.Pod) sche
 
 	//capacityMilliCPU := node.Status.Allocatable.Cpu().MilliValue()
 	//capacityMemory := node.Status.Allocatable.Memory().Value()
-	fmt.Println(node.Name, "cpu: ", canuseMilliCPU, " memory: ", canuseMemory)
-	fmt.Println(node.Name, "score: ", 10 - (calculateScore(canuseMilliCPU, allocatableMilliCPU) +
-		calculateScore(canuseMemory, allocatableMemory)) / 2)
+
 
 	return schedulerapi.HostPriority{
 		Host: node.Name,
-		Score: 10 - ((calculateScore(canuseMilliCPU, allocatableMilliCPU) +
-			calculateScore(canuseMemory, allocatableMemory)) / 2),
+		Score: 10 - (calculateScore(canuseMilliCPU, allocatableMilliCPU) +
+			calculateScore(canuseMemory, allocatableMemory)) / 2,
 	}
 }
 
