@@ -15,7 +15,7 @@ func LeastHostedPriority(args *schedulerapi.ExtenderArgs) schedulerapi.HostPrior
 	nodes := args.Nodes
 	pods := nodeStatus.GetAllPods()
 
-	getPodScheduleStatus(pods)
+	getPodScheduleStatus(pods, pod)
 
 	for _, node := range nodes.Items {
 		ePods := nodeStatus.GetPodsByNodeName(pods, node.Name)
@@ -52,14 +52,14 @@ func calculateResourceScore(pod *api.Pod, node *api.Node, epods []*api.Pod) sche
 
 	//capacityMilliCPU := node.Status.Allocatable.Cpu().MilliValue()
 	//capacityMemory := node.Status.Allocatable.Memory().Value()
-	fmt.Println(node.Name, "cpu: ", canuseMilliCPU, " memory: ", canuseMemory)
-	fmt.Println(node.Name, "score: ", (calculateScore(canuseMilliCPU, allocatableMilliCPU) +
-		calculateScore(canuseMemory, allocatableMemory)) / 2)
+	//fmt.Println(node.Name, "cpu: ", canuseMilliCPU, " memory: ", canuseMemory)
+	//fmt.Println(node.Name, "score: ", 10 - (calculateScore(canuseMilliCPU, allocatableMilliCPU) +
+	//	calculateScore(canuseMemory, allocatableMemory)) / 2)
 
 	return schedulerapi.HostPriority{
 		Host: node.Name,
-		Score: (calculateScore(canuseMilliCPU, allocatableMilliCPU) +
-			calculateScore(canuseMemory, allocatableMemory)) / 2,
+		Score: 10 - ((calculateScore(canuseMilliCPU, allocatableMilliCPU) +
+			calculateScore(canuseMemory, allocatableMemory)) / 2),
 	}
 }
 
@@ -87,11 +87,14 @@ func calculateScore(allocatable int64, capacity int64) int {
 	return int(allocatable * 10 / capacity)
 }
 
-func getPodScheduleStatus(podList api.PodList) {
+func getPodScheduleStatus(podList api.PodList, notPod api.Pod) {
 	fmt.Println("Number of pod scheduled : ", len(podList.Items))
 	var totalScheduledCpu int64 = int64(0)
 	var totalScheduleMemory int64 = int64(0)
 	for index, pod := range podList.Items {
+		if pod.Name == notPod.Name {
+			continue
+		}
 		fmt.Println("pod", index, " :")
 		podRequest := getResourceRequest(&pod)
 		totalScheduledCpu += podRequest.milliCPU
