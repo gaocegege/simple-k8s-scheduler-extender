@@ -9,6 +9,6 @@ godep go build .
 ./simple-k8s-scheduler-extender
 ```
 
-## Related Bugs in K8s
+## NOTICE
 
-ref [kubernetes/kubenetes#32652](https://github.com/kubernetes/kubernetes/pull/32652)
+The algorithm is a demo.
