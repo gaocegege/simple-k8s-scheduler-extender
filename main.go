@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/gaocegege/simple-k8s-scheduler-extender/api"
+	"github.com/simple-k8s-scheduler-extender/api"
 	"github.com/gin-gonic/gin"
 )
 
