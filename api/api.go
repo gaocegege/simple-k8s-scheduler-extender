@@ -3,7 +3,7 @@ package api
 import (
 	"fmt"
 
-	"github.com/gaocegege/simple-k8s-scheduler-extender/algorithm"
+	"github.com/simple-k8s-scheduler-extender/algorithm"
 	"github.com/gin-gonic/gin"
 	schedulerapi "k8s.io/kubernetes/plugin/pkg/scheduler/api"
 )
